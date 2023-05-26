@@ -21,22 +21,22 @@ project:
 # it does and how to operate it. This info will be automatically collected and used to make a datasheet for the chip.
 #
 # Here is a great example: https://github.com/davidsiaw/tt02-davidsiaw-stackcalc/blob/38c5647f83aad2aec675d566aa3d67b98f0aac81/info.yaml
-documentation: 
-  author:       ""      # Your name
-  title:        ""      # Project title
+documentation:
+  author:       "Ioannis-Rafail Tzonevrakis"      # Your name
+  title:        "Simple verilog content-addressable memory/associative array"      # Project title
   language:     "verilog" # other examples include Verilog, Amaranth, VHDL, etc
-  description:  ""      # Short description of what your project does
+  description:  "This module implements a 16x7 memory that is addressable through its contents, rather than addresses."      # Short description of what your project does
 
 # Longer description of how the project works. You can use standard markdown format.
   how_it_works: |
-      Explain how your project works
+    The CAM is completely inferred from behavioral verilog by yosys. For each register in `data`, a comparator checks whether its value equals that of `content`; If so, it updates the corresponding line in `found_addr` to equal `HIGH`, otherwise, it equals `LOW`. Writing to the CAM is accomplished by raising the active-HIGH `we`, in which case the memory will automatically cycle through available registers. On running out of registers, the oldest data will be replaced with the new value.
 
 # Instructions on how someone could test your project, include things like what buttons do what and how to set the clock if needed
   how_to_test:  |
-      Explain how to test your project
+      Please consult the testbench (`src/test.py`, written in cocotb) for comprehensive machine-readable test vectors.
 
 # A description of what the inputs do
-  inputs:               
+  inputs:
     - content
     - content
     - content
@@ -67,9 +67,9 @@ documentation:
     - found_addr
 
 # The following fields are optional
-  tag:          ""      # comma separated list of tags: test encryption, experiment, clock, animation, utility, industrial, pwm, fpga, alu, microprocessor, risc, riscv, sensor, signal generator, fft, filter, music, bcd, sound, serial, timer, random number generator, calculator, decoder, counter, puzzle, multiplier, game, oscillator,
-  external_hw:  ""      # Describe any external hardware needed
-  discord:      ""      # Your discord handle, used for communication and automatically assigning tapeout role after a submission
+  tag:          "verilog, memory, cam, behavioral, rtl"      # comma separated list of tags: test encryption, experiment, clock, animation, utility, industrial, pwm, fpga, alu, microprocessor, risc, riscv, sensor, signal generator, fft, filter, music, bcd, sound, serial, timer, random number generator, calculator, decoder, counter, puzzle, multiplier, game, oscillator,
+  external_hw:  "none"      # Describe any external hardware needed
+  discord:      "omitted"      # Your discord handle, used for communication and automatically assigning tapeout role after a submission
   doc_link:     ""      # URL to longer form documentation, eg the README.md in your repository
   clock_hz:     10000000       # Clock frequency in Hz (if required)
   picture:      ""      # relative path to a picture in your repository
