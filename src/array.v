@@ -26,7 +26,7 @@ module cam(input wire clk, ena, rst_n, we,
     for (i = 0;i < 16;i = i+1) begin
       always @(posedge clk) begin
           if (!rst_n) begin //Reset logic
-            data[i] <= 8'd0;
+            data[i] <= 7'd0;
             found_addr[i] <= 'd0;
           end
           else begin // Matching logic

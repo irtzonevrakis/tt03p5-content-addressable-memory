@@ -25,5 +25,11 @@ module tb(input wire clk, rst_n, we,
 
   tt_um_cam dut0 (.ui_in(ui_in), .uo_out(uo_out), .uio_in(uio_in),
                   .uio_out(uio_out), .uio_oe(uio_oe), .ena(ena),
-                  .clk(clk), .rst_n(rst_n));
+                  .clk(clk), .rst_n(rst_n),
+                  `ifdef GL_TEST
+                    // Power pins for gate-level test
+                    .vccd1( 1'b1),
+                    .vssd1( 1'b0)
+                  `endif
+                 );
 endmodule
