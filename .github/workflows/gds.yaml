@@ -152,7 +152,9 @@ jobs:
           name: GDS
           path: |
             src/*
-            runs/wokwi/*
+            runs/wokwi/results/final/*
+            runs/wokwi/reports/metrics.csv
+            runs/wokwi/reports/synthesis/1-synthesis.AREA 0.stat.rpt
 
 ##############################################################
 # Publish to pages to get a nicely formatted result
