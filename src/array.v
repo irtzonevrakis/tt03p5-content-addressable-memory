@@ -35,6 +35,7 @@ module cam(input wire clk, ena, rst_n, we,
       always @(posedge clk) begin
           if (!rst_n) begin
             found_addr[i] <= 'd0;
+          end
           else begin // Matching logic
             if (data[i] == content)
               found_addr[i] <= 'd1;
