@@ -249,7 +249,7 @@ async def test_random_misses(dut):
             assert int(dut.found_addr.value) == 0
 
 @cocotb.test()
-async def test_random_rw_cycles(dut):
+async def test_random_rw_cycles_with_misses(dut):
     """16*5000 = 80000 random read/write cycles with misses"""
     clock = Clock(dut.clk, 1, units="ms")
     cocotb.start_soon(clock.start())
