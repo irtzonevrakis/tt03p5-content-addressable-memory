@@ -9,7 +9,7 @@ module cam(input wire clk, ena, rst_n, we,
 
   always @(posedge clk) begin
     if (!rst_n) begin
-      current_address <= 4'd1;
+      current_address <= 16'd1;
     end
     else begin
       if (we) begin
