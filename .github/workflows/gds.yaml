@@ -8,8 +8,8 @@ permissions:
 jobs:
   gds:
     env:
-        OPENLANE_TAG:           2023.02.14
-        OPENLANE_IMAGE_NAME:    efabless/openlane:4cd0986b3ae550cdf7a6d0fba4e0657012f635d8-amd64
+        OPENLANE_TAG:           2023.06.08
+        OPENLANE_IMAGE_NAME:    efabless/openlane:85e9dc67fc4c08992fdf6ac2b36acd89807b0a25-amd64
         OPENLANE_ROOT:          /home/runner/openlane
         PDK_ROOT:               /home/runner/pdk
         PDK:                    sky130A
@@ -152,9 +152,7 @@ jobs:
           name: GDS
           path: |
             src/*
-            runs/wokwi/results/final/*
-            runs/wokwi/reports/metrics.csv
-            runs/wokwi/reports/synthesis/1-synthesis.AREA 0.stat.rpt
+            runs/wokwi/*
 
 ##############################################################
 # Publish to pages to get a nicely formatted result
