@@ -40,7 +40,10 @@ cd ../tests_and_examples/install.test/
 
 1. In `tb.v`, edit the line starting with `$sdf_annotate` to point to the SDF
    file corresponding to the corner you want to test at.
-2. Run `SIM=cvc GATES=yes SDF=yes make > sim.log`. Once finished, review
+2. From `GDS.zip`, copy the powered gate-level netlist from
+   `runs/wokwi/results/final/gds/tt_um_cam.gds` to `gate_level_netlist.v`
+   in this directory.
+3. Run `SIM=cvc GATES=yes SDF=yes make > sim.log`. Once finished, review
    `sim.log`.
 
 ## Further reading
