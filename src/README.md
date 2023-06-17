@@ -23,8 +23,8 @@
 5. Copy the compiled `hexasm` binary somewhere in your path.
 6. Build the rest of CVC: `make -f makefile.cvc64`
 7. Copy the compiled `cvc64` binary somewhere in your path.
-8. Test your installation: 
-   ```
+8. Test your installation:
+```
 cd ../tests_and_examples/install.test/
       ./inst_test.sh cvc64
       ./inst_test_interp.sh cvc64
