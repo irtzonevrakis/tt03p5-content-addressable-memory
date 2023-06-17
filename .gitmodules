@@ -1,0 +1,3 @@
+[submodule "caravel_mgmt_soc_litex"]
+	path = caravel_mgmt_soc_litex
+	url = https://github.com/efabless/caravel_mgmt_soc_litex

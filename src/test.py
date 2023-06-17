@@ -6,6 +6,8 @@ from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge, FallingEdge, Timer, ClockCycles
 import random
 
+CLOCK_PERIOD = 20 # Clock period (in ns)
+
 # Begin helper coroutines
 async def reset_cam(dut):
     """Perform the CAM reset sequence; All signals LOW and rst_n LOW. Wait
@@ -30,7 +32,7 @@ async def write_cam(dut, value):
 @cocotb.test()
 async def test_reset(dut):
     """Test reset sequence."""
-    clock = Clock(dut.clk, 1, units="ms")
+    clock = Clock(dut.clk, CLOCK_PERIOD, units="ns")
     cocotb.start_soon(clock.start())
     await reset_cam(dut)
     assert int(dut.found_addr.value) == int('ffff', 16)
@@ -39,7 +41,7 @@ async def test_reset(dut):
 @cocotb.test()
 async def test_reset_then_miss(dut):
     """Test reset sequence, followed by causing a miss"""
-    clock = Clock(dut.clk, 1, units="ms")
+    clock = Clock(dut.clk, CLOCK_PERIOD, units="ns")
     cocotb.start_soon(clock.start())
     await reset_cam(dut)
     await FallingEdge(dut.clk)
@@ -47,11 +49,12 @@ async def test_reset_then_miss(dut):
         dut.content.value = 1
         await FallingEdge(dut.clk)
         assert int(dut.found_addr.value) == 0
+    await ClockCycles(dut.clk, 1)
 
 @cocotb.test()
 async def test_write(dut):
     """Test simple writes."""
-    clock = Clock(dut.clk, 1, units="ms")
+    clock = Clock(dut.clk, CLOCK_PERIOD, units="ns")
     cocotb.start_soon(clock.start())
     await reset_cam(dut)
     await FallingEdge(dut.clk)
@@ -73,11 +76,12 @@ async def test_write(dut):
     dut.content.value = int('0a', 16)
     await FallingEdge(dut.clk)
     assert int(dut.found_addr.value) == int('0000000000000100', 2)
+    await ClockCycles(dut.clk, 1)
 
 @cocotb.test()
 async def test_fill(dut):
     """Test filling up the CAM (writes + address current overflow)"""
-    clock = Clock(dut.clk, 1, units="ms")
+    clock = Clock(dut.clk, CLOCK_PERIOD, units="ns")
     cocotb.start_soon(clock.start())
     await reset_cam(dut)
     await FallingEdge(dut.clk)
@@ -101,11 +105,12 @@ async def test_fill(dut):
                 assert bitval == 1
             else:
                 assert bitval == 0
+    await ClockCycles(dut.clk, 1)
 
 @cocotb.test()
 async def test_fill_then_miss(dut):
     """Test filling up the CAM, then causing misses"""
-    clock = Clock(dut.clk, 1, units="ms")
+    clock = Clock(dut.clk, CLOCK_PERIOD, units="ns")
     cocotb.start_soon(clock.start())
     await reset_cam(dut)
     await FallingEdge(dut.clk)
@@ -122,11 +127,12 @@ async def test_fill_then_miss(dut):
         dut.content.value = 0
         await FallingEdge(dut.clk)
         assert int(dut.found_addr.value) == 0
+    await ClockCycles(dut.clk, 1)
 
 @cocotb.test()
 async def test_random(dut):
     """16*5000 = 80000 random reads/writes"""
-    clock = Clock(dut.clk, 1, units="ms")
+    clock = Clock(dut.clk, CLOCK_PERIOD, units="ns")
     cocotb.start_soon(clock.start())
     await reset_cam(dut)
     await FallingEdge(dut.clk)
@@ -163,11 +169,12 @@ async def test_random(dut):
                     assert bitval == 0
 
     dut._log.info(f'Observed {collisions} collisions.')
+    await ClockCycles(dut.clk, 1)
 
 @cocotb.test()
 async def test_random_rw_cycles(dut):
     """16*5000 = 80000 random read/write cycles """
-    clock = Clock(dut.clk, 1, units="ms")
+    clock = Clock(dut.clk, CLOCK_PERIOD, units="ns")
     cocotb.start_soon(clock.start())
     await reset_cam(dut)
     await FallingEdge(dut.clk)
@@ -207,11 +214,12 @@ async def test_random_rw_cycles(dut):
                     assert bitval == 0
 
     dut._log.info(f'Observed {collisions} collisions.')
+    await ClockCycles(dut.clk, 1)
 
 @cocotb.test()
 async def test_random_misses(dut):
     """16*5000 = 80000 random write/miss cycles """
-    clock = Clock(dut.clk, 1, units="ms")
+    clock = Clock(dut.clk, CLOCK_PERIOD, units="ns")
     cocotb.start_soon(clock.start())
     await reset_cam(dut)
     await FallingEdge(dut.clk)
@@ -247,11 +255,12 @@ async def test_random_misses(dut):
             dut.content.value = val
             await FallingEdge(dut.clk)
             assert int(dut.found_addr.value) == 0
+    await ClockCycles(dut.clk, 1)
 
 @cocotb.test()
 async def test_random_rw_cycles_with_misses(dut):
     """16*5000 = 80000 random read/write cycles with misses"""
-    clock = Clock(dut.clk, 1, units="ms")
+    clock = Clock(dut.clk, CLOCK_PERIOD, units="ns")
     cocotb.start_soon(clock.start())
     await reset_cam(dut)
     await FallingEdge(dut.clk)
@@ -304,6 +313,7 @@ async def test_random_rw_cycles_with_misses(dut):
                     assert bitval == 0
 
     dut._log.info(f'Observed {collisions} collisions.')
+    await ClockCycles(dut.clk, 1)
 
 
 # End cocotb tests

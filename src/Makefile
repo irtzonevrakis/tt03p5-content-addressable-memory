@@ -13,14 +13,27 @@ VERILOG_SOURCES += $(PWD)/tb.v $(PWD)/array.v $(PWD)/top.v
 
 else
 
+ifeq ($(SDF), yes)
 # gate level simulation requires some extra setup, you shouldn't need to touch this
+COMPILE_ARGS    += +define+GL_TEST
+COMPILE_ARGS    += +define+FUNCTIONAL
+COMPILE_ARGS    += +define+USE_POWER_PINS
+COMPILE_ARGS    += +define+SIM
+COMPILE_ARGS    += +define+SDF
+COMPILE_ARGS    += +define+UNIT_DELAY=\#1
+VERILOG_SOURCES += ../caravel_mgmt_soc_litex/verilog/cvc-pdk/primitives_hd.v
+VERILOG_SOURCES += ../caravel_mgmt_soc_litex/verilog/cvc-pdk/sky130_fd_io.v
+VERILOG_SOURCES += ../caravel_mgmt_soc_litex/verilog/cvc-pdk/sky130_fd_sc_hd.v
+VERILOG_SOURCES += ../caravel_mgmt_soc_litex/verilog/cvc-pdk/sky130_ef_io.v
+else
 COMPILE_ARGS    += -DGL_TEST
 COMPILE_ARGS    += -DFUNCTIONAL
 COMPILE_ARGS    += -DUSE_POWER_PINS
 COMPILE_ARGS    += -DSIM
-COMPILE_ARGS    += -DUNIT_DELAY=#1
+COMPILE_ARGS    += -DUNIT_DELAY=\#1
 VERILOG_SOURCES += $(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/verilog/primitives.v
 VERILOG_SOURCES += $(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/verilog/sky130_fd_sc_hd.v
+endif
 
 # this gets copied in by the GDS action workflow
 VERILOG_SOURCES += $(PWD)/tb.v $(PWD)/gate_level_netlist.v

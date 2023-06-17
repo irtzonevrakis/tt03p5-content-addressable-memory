@@ -12,6 +12,9 @@ module tb(input wire clk, rst_n, we,
   initial begin
     $dumpfile("dump.vcd");
     $dumpvars(0, tb);
+    `ifdef SDF
+      $sdf_annotate("../runs/wokwi/results/final/sdf/multicorner/nom/tt_um_cam.Slowest.sdf", dut0);
+    `endif
     #1;
   end
 
